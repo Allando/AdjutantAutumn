@@ -26,7 +26,7 @@ void welcome(void);
 // For system maintenance
 void system_maintenance(void);
 void update(void);
-void antivirus(_path);
+void antivirus(char *_path);
 // end system maintenance
 
 // For Event sections
@@ -36,9 +36,11 @@ void eventHandler(char *message, char *time, char* date);
 // SYSTEM MAINTENANCE
 void system_maintenance(void)
 {
+	char *pathToStuff;
+
 	printf(PT_ANN"SYSTEM MAINTENANCE\n");
 	update();
-	antivirus();
+	antivirus(pathToStuff);
 	printf(PT_WIN"SYSTEMS MAINTENANCE COMPLETE\n");
 }
 
@@ -56,13 +58,22 @@ void update(void)
 		exit(EXIT_FAILURE);
 }
 
-void antivirus(_path)
+void antivirus(char *_path)
 {
-	if (_path != "") {
+	char *scanPath;
+	char *basicCmd;
+	char *cmd;
+
+	if (strcmp(_path, "") == 0)
+	{
 		scanPath = _path;
 	}
 
-	char *updateClam = malloc(strlen("clamscan -r -i %s", scanPath));
+	basicCmd = "clamscan -r -i ";
+	cmd = basicCmd + scanPath;
+
+	size_t strSize = strlen(cmd);
+	char *updateClam = malloc(strSize);
 	char scan[64];
 
 	strcpy(updateClam, "sudo freshclam");
