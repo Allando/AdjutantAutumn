@@ -12,6 +12,10 @@
 #define ANC_WHITE			"\x1b[37m"
 #define ANC_RESET			"\x1b[0m"
 
+#define PT_ANN				"\x1b[37m[*]\x1b[0m "
+#define PT_WIN				"\x1b[32m[*]\x1b[0m "
+#define PT_FAIL				"\x1b[31m[*]\x1b[0m "
+
 #define NUM_COUNTERS 	(100)
 #define COUNTER_FILE 	"/tmp/hit"
 #define NEW_COUNTER_FILE COUNTER_FILE "~"
@@ -32,10 +36,10 @@ void eventHandler(char *message, char *time, char* date);
 // SYSTEM MAINTENANCE
 void system_maintenance(void)
 {
-	printf(ANC_WHITE"[*]"ANC_RESET" SYSTEM MAINTENANCE\n");
+	printf(PT_ANN"SYSTEM MAINTENANCE\n");
 	update();
 	antivirus();
-	printf(ANC_GREEN"[*]"ANC_RESET" SYSTEMS MAINTENANCE COMPLETE\n");
+	printf(PT_WIN"SYSTEMS MAINTENANCE COMPLETE\n");
 }
 
 // Notice the arch syntax!!
@@ -44,29 +48,34 @@ void update(void)
 	char updateCommand[50];
 	strcpy(updateCommand, "sudo pacman -Syu");
 
-	printf(ANC_WHITE"[*]"ANC_RESET"Updating...\n");
+	printf(PT_ANN"Updating...\n");
 	system(updateCommand);
-	printf(ANC_GREEN"[*]"ANC_RESET"Update complete!\n");
+	printf(PT_WIN"Update complete!\n");
 }
 
 void antivirus(void)
 {
 		char updateClam[50];
-		char scan[50];
+		char scan[64];
 
 		strcpy(updateClam, "sudo freshclam");
-		strcpy(scan, "sudo clamscan / -i -r" );
+		strcpy(scan, "sudo clamscan -r /home/theippo1000/ComputerScience/" );
 
-		printf(ANC_WHITE"[*]"ANC_RESET"Updating virus...\n");
+		printf(PT_ANN"Updating virus...\n");
 		system(updateClam);
-		printf(ANC_GREEN"[*]"ANC_RESET"Update complete\n");
-		printf(ANC_WHITE"[*]"ANC_RESET"Scanning...\n");
+		printf(PT_WIN"Update complete\n");
+		printf(PT_ANN"Scanning for virus...\n");
 		system(scan);
-		printf(ANC_GREEN"[*]"ANC_RESET"Scanning complete!\n");
+
+		if (system(scan) == 0)
+			printf(PT_WIN"Scanning complete!\n");
+		else
+			printf(PT_FAIL"Scanning failed!\n");
+			exit(EXIT_FAILURE);
+
+
 }
 // END SYSTEM MAINTENANCE
-
-
 
 // Just some welcome screen
 void welcome(void)
