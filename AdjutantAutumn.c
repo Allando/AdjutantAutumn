@@ -26,7 +26,7 @@ void welcome(void);
 // For system maintenance
 void system_maintenance(void);
 void update(void);
-void antivirus(void);
+void antivirus(_path);
 // end system maintenance
 
 // For Event sections
@@ -45,35 +45,40 @@ void system_maintenance(void)
 // Notice the arch syntax!!
 void update(void)
 {
-	char updateCommand[50];
+	char *updateCommand = malloc(64);
 	strcpy(updateCommand, "sudo pacman -Syu");
 
 	printf(PT_ANN"Updating...\n");
-	system(updateCommand);
-	printf(PT_WIN"Update complete!\n");
+	if (system(updateCommand) == 0)
+		printf(PT_WIN"Update complete!\n");
+	else
+		printf(PT_FAIL"Update failed...\n");
+		exit(EXIT_FAILURE);
 }
 
-void antivirus(void)
+void antivirus(_path)
 {
-		char updateClam[50];
-		char scan[64];
+	if (_path != "") {
+		scanPath = _path;
+	}
 
-		strcpy(updateClam, "sudo freshclam");
-		strcpy(scan, "sudo clamscan -r /home/theippo1000/ComputerScience/" );
+	char *updateClam = malloc(strlen("clamscan -r -i %s", scanPath));
+	char scan[64];
 
-		printf(PT_ANN"Updating virus...\n");
-		system(updateClam);
-		printf(PT_WIN"Update complete\n");
-		printf(PT_ANN"Scanning for virus...\n");
-		system(scan);
+	strcpy(updateClam, "sudo freshclam");
+	strcpy(scan, "sudo clamscan -r /home/theippo1000/ComputerScience/" );
 
-		if (system(scan) == 0)
-			printf(PT_WIN"Scanning complete!\n");
-		else
-			printf(PT_FAIL"Scanning failed!\n");
-			exit(EXIT_FAILURE);
+	printf(PT_ANN"Updating virus...\n");
+	system(updateClam);
+	printf(PT_WIN"Update complete\n");
+	printf(PT_ANN"Scanning for virus...\n");
+	system(scan);
 
-
+	if (system(scan) == 0)
+		printf(PT_WIN"Scanning complete!\n");
+	else
+		printf(PT_FAIL"Scanning failed!\n");
+		exit(EXIT_FAILURE);
 }
 // END SYSTEM MAINTENANCE
 
