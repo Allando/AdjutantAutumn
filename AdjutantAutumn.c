@@ -26,7 +26,7 @@ void welcome(void);
 // For system maintenance
 void system_maintenance(void);
 void update(void);
-void antivirus(char *_path);
+void antivirus(void);
 // end system maintenance
 
 // For Event sections
@@ -40,7 +40,7 @@ void system_maintenance(void)
 
 	printf(PT_ANN"SYSTEM MAINTENANCE\n");
 	update();
-	antivirus(pathToStuff);
+	antivirus();
 	printf(PT_WIN"SYSTEMS MAINTENANCE COMPLETE\n");
 }
 
@@ -52,44 +52,67 @@ void update(void)
 
 	printf(PT_ANN"Updating...\n");
 	if (system(updateCommand) == 0)
+	{
 		printf(PT_WIN"Update complete!\n");
+	}
 	else
+	{
 		printf(PT_FAIL"Update failed...\n");
 		exit(EXIT_FAILURE);
+	}
 }
 
-void antivirus(char *_path)
+void antivirus()
 {
 	char *scanPath;
 	char *basicCmd;
-	char *cmd;
+	char *updateCmd;
+	char *updateClam;
+	char *scan;
+	size_t totalCmdSize;
 
-	if (strcmp(_path, "") == 0)
+	updateCmd = "sudo freshclam";
+	basicCmd = "sudo clamscan -r -i ";
+
+	printf("Please enter which directory or file you want to scan (default=root)\n");
+
+	if (strcmp(scanf("%s\n", scanPath), "") == 0)
 	{
-		scanPath = _path;
+		scanPath = "/";
+	}
+	else if (strspn(scanf("%s\n", scanPath), "~/"))
+	{
+		printf("~/ please write /home/username, thank you\n");
+	}
+	else
+	{
+		// TODO: set scanPath to path!
 	}
 
-	basicCmd = "clamscan -r -i ";
-	cmd = basicCmd + scanPath;
+	totalCmdSize = (sizeof(basicCmd) + sizeof(scanPath));
 
-	size_t strSize = strlen(cmd);
-	char *updateClam = malloc(strSize);
-	char scan[64];
+	updateClam = malloc(sizeof(updateCmd));
+	scan = malloc(sizeof(totalCmdSize));
 
-	strcpy(updateClam, "sudo freshclam");
-	strcpy(scan, "sudo clamscan -r /home/theippo1000/ComputerScience/" );
+	strcat(scan, basicCmd);
+	strcat(scan, scanPath);
+
+	strcpy(updateClam, updateCmd);
 
 	printf(PT_ANN"Updating virus...\n");
 	system(updateClam);
 	printf(PT_WIN"Update complete\n");
+	printf("Executing command: %s\n", scan);
 	printf(PT_ANN"Scanning for virus...\n");
-	system(scan);
-
 	if (system(scan) == 0)
+	{
 		printf(PT_WIN"Scanning complete!\n");
+	}
 	else
+	{
 		printf(PT_FAIL"Scanning failed!\n");
 		exit(EXIT_FAILURE);
+	}
 }
 // END SYSTEM MAINTENANCE
 
