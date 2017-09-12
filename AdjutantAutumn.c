@@ -39,7 +39,7 @@ void system_maintenance(void)
 	char *pathToStuff;
 
 	printf(PT_ANN"SYSTEM MAINTENANCE\n");
-	update();
+	//update();
 	antivirus();
 	printf(PT_WIN"SYSTEMS MAINTENANCE COMPLETE\n");
 }
@@ -73,21 +73,7 @@ void antivirus()
 
 	updateCmd = "sudo freshclam";
 	basicCmd = "sudo clamscan -r -i ";
-
-	printf("Please enter which directory or file you want to scan (default=root)\n");
-
-	if (strcmp(scanf("%s\n", scanPath), "") == 0)
-	{
-		scanPath = "/";
-	}
-	else if (strspn(scanf("%s\n", scanPath), "~/"))
-	{
-		printf("~/ please write /home/username, thank you\n");
-	}
-	else
-	{
-		// TODO: set scanPath to path!
-	}
+	scanPath = "/";
 
 	totalCmdSize = (sizeof(basicCmd) + sizeof(scanPath));
 
@@ -100,7 +86,7 @@ void antivirus()
 	strcpy(updateClam, updateCmd);
 
 	printf(PT_ANN"Updating virus...\n");
-	system(updateClam);
+	// system(updateClam);
 	printf(PT_WIN"Update complete\n");
 	printf("Executing command: %s\n", scan);
 	printf(PT_ANN"Scanning for virus...\n");
