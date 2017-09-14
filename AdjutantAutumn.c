@@ -28,7 +28,11 @@ void antivirus(void);
 // end system maintenance
 
 // For reminder sections
-void reminder();
+void reminder(void);
+void createNote(void);
+void readNote(void);
+void updateNote(void);
+void deleteNote(void);
 // end reminder
 // end Prototypes
 
@@ -99,6 +103,27 @@ void antivirus()
 }
 // END SYSTEM MAINTENANCE
 
+// A note-to-self type of thingy
+void reminder()
+{
+	char choice;
+	choice = malloc(8);
+	printf("(C)reate note\n");
+	printf("(R)ead notes\n");
+	printf("(U)pdate note\n");
+	printf("(D)elete note");
+	scanf("%c\n", choice);
+	if (strcmp(*choice, 'c') == 0 || strcmp(*choice, 'C') == 0)
+		addNote();
+	else if (strcmp(*choice, 'r') == 0 || strcmp(*choice, 'R') == 0)
+		readNotes();
+	else if (strcmp(*choice, 'u') == 0 || strcmp(*choice, 'U') == 0)
+		updateNote();
+	else if (strcmp(*choice, 'd') == 0 || strcmp(*choice, 'D') == 0)
+		deleteNote();
+
+}
+
 // Just some welcome screen
 void welcome(void)
 {
@@ -119,7 +144,7 @@ int main(int argc, char **argv)
 	int c;
 	welcome();
 
-	while ((c = getopt (argc, argv, "abmc:")) != -1)
+	while ((c = getopt (argc, argv, "abmrc:")) != -1)
 	{
     switch (c)
       {
@@ -134,6 +159,9 @@ int main(int argc, char **argv)
         break;
 			case 'm':
 				system_maintenance();
+				break;
+			case 'r':
+				reminder();
 				break;
       case '?':
         if (optopt == 'c')
