@@ -107,20 +107,66 @@ void antivirus()
 void reminder()
 {
 	char choice;
-	choice = malloc(8);
+
 	printf("(C)reate note\n");
 	printf("(R)ead notes\n");
 	printf("(U)pdate note\n");
 	printf("(D)elete note");
-	scanf("%c\n", choice);
-	if (strcmp(*choice, 'c') == 0 || strcmp(*choice, 'C') == 0)
-		addNote();
-	else if (strcmp(*choice, 'r') == 0 || strcmp(*choice, 'R') == 0)
-		readNotes();
-	else if (strcmp(*choice, 'u') == 0 || strcmp(*choice, 'U') == 0)
+	scanf("%c\n", &choice);
+	choice = malloc(sizeof(choice));
+
+	if (strcmp(&choice, "c") == 0)
+	{
+		createNote();
+	}
+	else if (strcmp(&choice, "r") == 0)
+	{
+		readNote();
+	}
+	else if (strcmp(&choice, "u") == 0)
+	{
 		updateNote();
-	else if (strcmp(*choice, 'd') == 0 || strcmp(*choice, 'D') == 0)
+	}
+	else if (strcmp(&choice, "d") == 0)
+	{
 		deleteNote();
+	}
+}
+
+void createNote(void)
+{
+	char *note;
+	char saveNote;
+
+	printf("Enter a note\n");
+	scanf("%s\n", &note);
+	printf("%s\n", note);
+	printf("\nDo you wish to save this note?\n");
+	scanf("%s\n", &saveNote);
+	saveNote = malloc(sizeof(saveNote));
+	if (strcmp(saveNote, "y") == 0)
+	{
+		printf("HIIII\n");
+	}
+	else if (strcmp(saveNote, "n") == 0)
+	{
+		printf("NIIIIIIIH§§\n");
+	}
+	else
+	{
+		printf("something\n");
+	}
+}
+void readNote(void)
+{
+	printf("\n");
+}
+void updateNote(void)
+{
+
+}
+void deleteNote(void)
+{
 
 }
 
