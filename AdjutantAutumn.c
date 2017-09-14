@@ -26,14 +26,6 @@ void system_maintenance();
 void update(void);
 void antivirus(void);
 // end system maintenance
-
-// For reminder sections
-void reminder(void);
-void createNote(void);
-void readNote(void);
-void updateNote(void);
-void deleteNote(void);
-// end reminder
 // end Prototypes
 
 // SYSTEM MAINTENANCE
@@ -87,7 +79,7 @@ void antivirus()
 	strcpy(updateClam, updateCmd);
 
 	printf(PT_ANN"Updating virus...\n");
-	// system(updateClam);
+	system(updateClam);
 	printf(PT_WIN"Update complete\n");
 	printf("Executing command: %s\n", scan);
 	printf(PT_ANN"Scanning for virus...\n");
@@ -102,73 +94,6 @@ void antivirus()
 	}
 }
 // END SYSTEM MAINTENANCE
-
-// A note-to-self type of thingy
-void reminder()
-{
-	char choice;
-
-	printf("(C)reate note\n");
-	printf("(R)ead notes\n");
-	printf("(U)pdate note\n");
-	printf("(D)elete note");
-	scanf("%c\n", &choice);
-	choice = malloc(sizeof(choice));
-
-	if (strcmp(&choice, "c") == 0)
-	{
-		createNote();
-	}
-	else if (strcmp(&choice, "r") == 0)
-	{
-		readNote();
-	}
-	else if (strcmp(&choice, "u") == 0)
-	{
-		updateNote();
-	}
-	else if (strcmp(&choice, "d") == 0)
-	{
-		deleteNote();
-	}
-}
-
-void createNote(void)
-{
-	char *note;
-	char saveNote;
-
-	printf("Enter a note\n");
-	scanf("%s\n", &note);
-	printf("%s\n", note);
-	printf("\nDo you wish to save this note?\n");
-	scanf("%s\n", &saveNote);
-	saveNote = malloc(sizeof(saveNote));
-	if (strcmp(saveNote, "y") == 0)
-	{
-		printf("HIIII\n");
-	}
-	else if (strcmp(saveNote, "n") == 0)
-	{
-		printf("NIIIIIIIH§§\n");
-	}
-	else
-	{
-		printf("something\n");
-	}
-}
-void readNote(void)
-{
-	printf("\n");
-}
-void updateNote(void)
-{
-
-}
-void deleteNote(void)
-{
-
-}
 
 // Just some welcome screen
 void welcome(void)
@@ -190,26 +115,14 @@ int main(int argc, char **argv)
 	int c;
 	welcome();
 
-	while ((c = getopt (argc, argv, "abmrc:")) != -1)
+	while ((c = getopt (argc, argv, "abmc:")) != -1)
 	{
     switch (c)
       {
-      case 'a':
-        aflag = 1;
-        break;
-      case 'b':
-        bflag = 1;
-        break;
-      case 'c':
-        cvalue = optarg;
-        break;
 			case 'm':
 				system_maintenance();
 				break;
-			case 'r':
-				reminder();
-				break;
-      case '?':
+			case '?':
         if (optopt == 'c')
           fprintf (stderr, "Option -%c requires an argument.\n", optopt);
         else if (isprint (optopt))
@@ -223,8 +136,6 @@ int main(int argc, char **argv)
         abort ();
       }
 	}
-	printf ("aflag = %d, bflag = %d, cvalue = %s\n",
-          aflag, bflag, cvalue);
 
   for (index = optind; index < argc; index++)
     printf ("Non-option argument %s\n", argv[index]);
