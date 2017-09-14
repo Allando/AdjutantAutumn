@@ -27,8 +27,9 @@ void update(void);
 void antivirus(void);
 // end system maintenance
 
-// For Event sections
-void eventHandler(char *message, char *time, char* date);
+// For reminder sections
+void reminder();
+// end reminder
 // end Prototypes
 
 // SYSTEM MAINTENANCE
@@ -37,7 +38,6 @@ void system_maintenance()
 	printf(PT_ANN"SYSTEM MAINTENANCE\n");
 		update();
 		antivirus();
-
 	printf(PT_WIN"SYSTEMS MAINTENANCE COMPLETE\n");
 }
 
@@ -102,7 +102,7 @@ void antivirus()
 // Just some welcome screen
 void welcome(void)
 {
-	char clear[50];
+	char clear[16];
 	strcpy(clear, "clear");
 	system(clear);
 
