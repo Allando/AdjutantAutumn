@@ -26,6 +26,10 @@ void system_maintenance();
 void update(void);
 void antivirus(void);
 // end system maintenance
+
+// For notes
+void notes(void);
+
 // end Prototypes
 
 // SYSTEM MAINTENANCE
@@ -51,7 +55,7 @@ void update(void)
 	else
 	{
 		printf(PT_FAIL"Update failed...\n");
-		exit(EXIT_FAILURE);
+		// exit(EXIT_FAILURE);
 	}
 }
 
@@ -79,17 +83,27 @@ void antivirus()
 	strcpy(updateClam, updateCmd);
 
 	printf(PT_ANN"Updating virus...\n");
-	system(updateClam);
-	printf(PT_WIN"Update complete\n");
+	if (system(updateClam) == 0)
+	{
+		printf(PT_WIN"Update complete\n");
+	}
+	else
+	{
+		printf(PT_FAIL"Something went wrong...\n");
+		// exit(EXIT_FAILURE);
+	}
+
 	printf("Executing command: %s\n", scan);
 	printf(PT_ANN"Scanning for virus...\n");
 	if (system(scan) == 0)
 	{
 		printf(PT_WIN"Scanning complete!\n");
+		free(updateClam);
 	}
 	else
 	{
 		printf(PT_FAIL"Scanning failed!\n");
+		free(updateClam);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -140,5 +154,4 @@ int main(int argc, char **argv)
   for (index = optind; index < argc; index++)
     printf ("Non-option argument %s\n", argv[index]);
   return 0;
-
 }
