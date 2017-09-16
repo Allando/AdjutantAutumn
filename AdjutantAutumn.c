@@ -19,17 +19,20 @@
 #define PT_FAIL				"\x1b[31m[*]\x1b[0m "
 
 // Prototypes
-void welcome(void);
-
 // For system maintenance
 void system_maintenance();
 void update(void);
 void antivirus(void);
 // end system maintenance
 
-// For notes
-void notes(void);
-
+// For note thingy
+void noteHandler(void);
+void createNote(void);
+void readNote(void);
+void readNoteList(void);
+void updateNote(void);
+void deleteNote(void);
+// end note
 // end Prototypes
 
 // SYSTEM MAINTENANCE
@@ -109,16 +112,51 @@ void antivirus()
 }
 // END SYSTEM MAINTENANCE
 
-// Just some welcome screen
-void welcome(void)
+// NOTES
+void noteHandler(void)
 {
-	char clear[16];
-	strcpy(clear, "clear");
-	system(clear);
+	char *choice;
+	choice = malloc(4);
 
-	// TODO: Add banner!
-	printf("Hello, there!\n");
+	printf("1) Add new note\n");
+	printf("2) Add new note\n");
+	printf("3) Add new note\n");
+	printf("4) Add new note\n");
+
+	scanf("%s", choice);
+	if (strcmp(choice, "add") == 0) { createNote(); }
+	else 	if (strcmp(choice, "read") == 0 ) { readNote(); }
+	else 	if (strcmp(choice, "read*") == 0 ) { readNoteList(); }
+	else 	if (strcmp(choice, "update") == 0 ) { updateNote(); }
+	else 	if (strcmp(choice, "delete") == 0 ) { deleteNote(); }
 }
+
+void createNote(void)
+{
+
+}
+
+void readNote(void)
+{
+
+}
+
+void readNoteList(void)
+{
+
+}
+
+void updateNote(void)
+{
+
+}
+
+void deleteNote(void)
+{
+
+}
+
+// END NOTES
 
 int main(int argc, char **argv)
 {
@@ -127,14 +165,16 @@ int main(int argc, char **argv)
   char *cvalue = NULL;
   int index;
 	int c;
-	welcome();
 
-	while ((c = getopt (argc, argv, "abmc:")) != -1)
+	while ((c = getopt (argc, argv, "abmnc:")) != -1)
 	{
     switch (c)
       {
 			case 'm':
 				system_maintenance();
+				break;
+			case 'n':
+				noteHandler();
 				break;
 			case '?':
         if (optopt == 'c')
