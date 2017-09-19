@@ -7,9 +7,9 @@
 // If ya can't see 'tis is colors, then it's prob'rly the best ya phucked off!
 #define ANC_RED				"\x1b[31m"
 #define ANC_GREEN			"\x1b[32m"
-#define ANC_YELLOW		"\x1b[33m"
+#define ANC_YELLOW			"\x1b[33m"
 #define ANC_BLUE			"\x1b[34m"
-#define ANC_MAGENTA		"\x1b[35m"
+#define ANC_MAGENTA			"\x1b[35m"
 #define ANC_CYAN			"\x1b[36m"
 #define ANC_WHITE			"\x1b[37m"
 #define ANC_RESET			"\x1b[0m"
@@ -27,11 +27,11 @@ void antivirus(void);
 
 // For note thingy
 void noteHandler(void);
-void createNote(void);
-void readNote(void);
-void readNoteList(void);
-void updateNote(void);
-void deleteNote(void);
+void createNote(char *filename);
+void readNote(char *filename);
+void readNoteList(char *filename);
+void updateNote(char *filename);
+void deleteNote(char *filename);
 // end note
 // end Prototypes
 
@@ -58,7 +58,7 @@ void update(void)
 	else
 	{
 		printf(PT_FAIL"Update failed...\n");
-		// exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -115,43 +115,118 @@ void antivirus()
 // NOTES
 void noteHandler(void)
 {
+
 	char *choice;
+	char *fchoice;
+	char *file = "savefileAA.dat";
+	char *note;
+	int i;
 	choice = malloc(4);
 
-	printf("1) Add new note\n");
-	printf("2) Add new note\n");
-	printf("3) Add new note\n");
-	printf("4) Add new note\n");
+	printf("Add new note\n");
+	printf("Read single note\n");
+	printf("Read all notes\n");
+	printf("Update a note\n");
+	printf("Delete a note\n");
 
 	scanf("%s", choice);
-	if (strcmp(choice, "add") == 0) { createNote(); }
-	else 	if (strcmp(choice, "read") == 0 ) { readNote(); }
-	else 	if (strcmp(choice, "read*") == 0 ) { readNoteList(); }
-	else 	if (strcmp(choice, "update") == 0 ) { updateNote(); }
-	else 	if (strcmp(choice, "delete") == 0 ) { deleteNote(); }
+
+	if (strcmp(choice, "add") == 0)
+		createNote(file);
+	else if (strcmp(choice, "read") == 0 )
+		readNote(file);
+	else if (strcmp(choice, "readlist") == 0 )
+		readNoteList(file);
+	else if (strcmp(choice, "update") == 0 )
+		updateNote(file);
+	else if (strcmp(choice, "delete") == 0 )
+		deleteNote(file);
+	else
+		printf("Command not reconized.. you wrote %s\n", choice);
 }
 
-void createNote(void)
+void createNote(char *filename)
+{
+	FILE *fp;
+	char *fileCmd;
+
+	char *note;
+	char *choice;
+
+	note = malloc(4096);
+	choice = malloc(4);
+
+	fileCmd = malloc(4);
+	fileCmd = "y";
+
+	fp = fopen(filename, "w");
+	if (fp == NULL)
+	{
+		printf("Unable to open %s.\n", filename);
+
+		printf(PT_ANN"Checking if file exists\n");
+		if (access(filename, F_OK) != -1)
+		{
+			printf(PT_WIN"File exists\n");
+			printf(PT_FAIL"Unable to solve problem\n");
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			printf(PT_FAIL"File not found.\n");
+			printf("Would you like to create it?\n");
+			printf("Y: Create N: Exit program: ");
+			scanf("%c", fileCmd);
+			if (strcmp(fileCmd, "y") == 0 )
+			{
+				printf("ayy\n");
+			}
+			else
+			{
+				printf("Exiting...\n");
+				exit(EXIT_FAILURE);
+			}
+		}
+	}
+	else
+	{
+		printf("You've won!\n");
+		printf("Please write ya note\n");
+
+		scanf("%s", note);
+		printf("%s\n", note);
+		printf("Do you wish to save this note?\n");
+		scanf("%s", choice);
+		if (strcmp(choice, "y") == 0)
+		{
+			printf("More win\n");
+		}
+		else
+		{
+			printf("no win here\n");
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	fclose(fp);
+}
+
+void readNote(char *filename)
 {
 
 }
 
-void readNote(void)
+void readNoteList(char *filename)
 {
 
 }
 
-void readNoteList(void)
+void updateNote(char *filename)
 {
 
 }
 
-void updateNote(void)
-{
-
-}
-
-void deleteNote(void)
+void deleteNote(char *filename)
 {
 
 }
@@ -161,15 +236,15 @@ void deleteNote(void)
 int main(int argc, char **argv)
 {
 	int aflag = 0;
-  int bflag = 0;
-  char *cvalue = NULL;
-  int index;
+ 	int bflag = 0;
+ 	char *cvalue = NULL;
+ 	int index;
 	int c;
 
 	while ((c = getopt (argc, argv, "abmnc:")) != -1)
 	{
-    switch (c)
-      {
+		switch (c)
+		{
 			case 'm':
 				system_maintenance();
 				break;
@@ -177,21 +252,18 @@ int main(int argc, char **argv)
 				noteHandler();
 				break;
 			case '?':
-        if (optopt == 'c')
-          fprintf (stderr, "Option -%c requires an argument.\n", optopt);
-        else if (isprint (optopt))
-          fprintf (stderr, "Unknown option `-%c'.\n", optopt);
-        else
-          fprintf (stderr,
-                   "Unknown option character `\\x%x'.\n",
-                   optopt);
-        return 1;
-      default:
-        abort ();
-      }
+				if (optopt == 'c')
+					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+				else if (isprint (optopt))
+					fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+				else
+					fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
+				return 1;
+			default:
+				abort ();
+		}
 	}
-
-  for (index = optind; index < argc; index++)
-    printf ("Non-option argument %s\n", argv[index]);
-  return 0;
+	for (index = optind; index < argc; index++)
+		printf ("Non-option argument %s\n", argv[index]);
+		return 0;
 }
