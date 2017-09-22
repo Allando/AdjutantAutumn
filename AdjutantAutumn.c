@@ -159,20 +159,21 @@ void createNote(char *filename)
 	fileCmd = malloc(4);
 	fileCmd = "y";
 
-	strcmp(note, "Please just fucking work");
-	printf("%s\n", note );
-	fp = fopen(filename, "w");
-	printf("Write ya note\n");
-	 if(fp == NULL) 
-   	{
-      perror("Error opening file");
-      exit(EXIT_FAILURE);
-   	}
-   	if( fgets (note, sizeof(note), fp)!=NULL ) 
-   	{
-      /* writing content to stdout */
-      puts(note);
-   	}
+	strcpy(note, "Please just fucking work");
+
+
+	fp = fopen(filename, "a");
+	if (filename == NULL)
+	{
+		printf("Error opening file\n");
+		exit(EXIT_FAILURE);
+	}
+		
+	if (note != NULL)
+		fprintf(fp, "%s\n", note);
+	else
+		printf("Eat shit\n");
+
 	fclose(fp);
 }
 
