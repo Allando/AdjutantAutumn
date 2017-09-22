@@ -135,7 +135,7 @@ void noteHandler(void)
 		createNote(file);
 	else if (strcmp(choice, "read") == 0 )
 		readNote(file);
-	else if (strcmp(choice, "readlist") == 0 )
+	else if (strcmp(choice, "r") == 0 )
 		readNoteList(file);
 	else if (strcmp(choice, "update") == 0 )
 		updateNote(file);
@@ -184,7 +184,22 @@ void readNote(char *filename)
 
 void readNoteList(char *filename)
 {
+	FILE *fp;
+	char buff[4096];
 
+	fp = fopen(filename, "r");
+	if (filename == NULL)
+	{
+		printf("Error opening file\n");
+		exit(EXIT_FAILURE);
+	}
+
+	while (fscanf(fp, "%s", &etc) != EOF)
+	{
+		fgets(buff, 255, (FILE*)fp);
+   		printf("%s\n", buff );
+    }
+	fclose(fp);
 }
 
 void updateNote(char *filename)
