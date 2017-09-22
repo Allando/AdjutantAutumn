@@ -159,55 +159,20 @@ void createNote(char *filename)
 	fileCmd = malloc(4);
 	fileCmd = "y";
 
+	strcmp(note, "Please just fucking work");
+	printf("%s\n", note );
 	fp = fopen(filename, "w");
-	if (fp == NULL)
-	{
-		printf("Unable to open %s.\n", filename);
-
-		printf(PT_ANN"Checking if file exists\n");
-		if (access(filename, F_OK) != -1)
-		{
-			printf(PT_WIN"File exists\n");
-			printf(PT_FAIL"Unable to solve problem\n");
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			printf(PT_FAIL"File not found.\n");
-			printf("Would you like to create it?\n");
-			printf("Y: Create N: Exit program: ");
-			scanf("%c", fileCmd);
-			if (strcmp(fileCmd, "y") == 0 )
-			{
-				printf("ayy\n");
-			}
-			else
-			{
-				printf("Exiting...\n");
-				exit(EXIT_FAILURE);
-			}
-		}
-	}
-	else
-	{
-		printf("You've won!\n");
-		printf("Please write ya note\n");
-
-		scanf("%s", note);
-		printf("%s\n", note);
-		printf("Do you wish to save this note?\n");
-		scanf("%s", choice);
-		if (strcmp(choice, "y") == 0)
-		{
-			printf("More win\n");
-		}
-		else
-		{
-			printf("no win here\n");
-			exit(EXIT_FAILURE);
-		}
-	}
-
+	printf("Write ya note\n");
+	 if(fp == NULL) 
+   	{
+      perror("Error opening file");
+      exit(EXIT_FAILURE);
+   	}
+   	if( fgets (note, sizeof(note), fp)!=NULL ) 
+   	{
+      /* writing content to stdout */
+      puts(note);
+   	}
 	fclose(fp);
 }
 
