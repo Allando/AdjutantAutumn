@@ -14,9 +14,9 @@
 #define ANC_WHITE			"\x1b[37m"
 #define ANC_RESET			"\x1b[0m"
 
-#define PT_ANN				"\x1b[37m[*]\x1b[0m "
-#define PT_WIN				"\x1b[32m[*]\x1b[0m "
-#define PT_FAIL				"\x1b[31m[*]\x1b[0m "
+#define PT_ANN				"\x1b[37m[.]\x1b[0m "
+#define PT_WIN				"\x1b[32m[.]\x1b[0m "
+#define PT_FAIL				"\x1b[31m[.]\x1b[0m "
 
 // Prototypes
 // For system maintenance
