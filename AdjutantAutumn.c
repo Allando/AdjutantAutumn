@@ -14,9 +14,9 @@
 #define ANC_WHITE			"\x1b[37m"
 #define ANC_RESET			"\x1b[0m"
 
-#define PT_ANN				"\x1b[37m[.]\x1b[0m "
+#define PT_ANN				"\x1b[37m[*]\x1b[0m "
 #define PT_WIN				"\x1b[32m[.]\x1b[0m "
-#define PT_FAIL				"\x1b[31m[.]\x1b[0m "
+#define PT_FAIL				"\x1b[31m[*]\x1b[0m "
 
 // Prototypes
 // For system maintenance
@@ -160,19 +160,20 @@ void createNote(char *filename)
 	fileCmd = "y";
 
 	strcpy(note, "Please just fucking work");
-
-
 	fp = fopen(filename, "a");
 	if (filename == NULL)
 	{
-		printf("Error opening file\n");
+		printf(PT_FAIL"Error opening file\n");
 		exit(EXIT_FAILURE);
 	}
 		
 	if (note != NULL)
+	{
 		fprintf(fp, "%s\n", note);
+		printf(PT_WIN"Note saved\n");
+	}
 	else
-		printf("Eat shit\n");
+		printf(PT_FAIL"Eat shit\n");
 
 	fclose(fp);
 }
@@ -185,21 +186,27 @@ void readNote(char *filename)
 void readNoteList(char *filename)
 {
 	FILE *fp;
-	char buff[4096];
+	int c;
 
 	fp = fopen(filename, "r");
+	printf("hello!!\n");
 	if (filename == NULL)
 	{
 		printf("Error opening file\n");
 		exit(EXIT_FAILURE);
+		printf("hello you\n");
 	}
 
-	while (fscanf(fp, "%s", &etc) != EOF)
+	while (1)
 	{
-		fgets(buff, 255, (FILE*)fp);
-   		printf("%s\n", buff );
+		c = fgetc(fp);
+    	if( feof(fp) )
+    	{
+    		break;
+    	}
+      printf("%c", c);
     }
-	fclose(fp);
+	fclose(fp); 
 }
 
 void updateNote(char *filename)
