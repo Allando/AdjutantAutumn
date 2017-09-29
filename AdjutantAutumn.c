@@ -1,5 +1,6 @@
 #include <ctype.h>
 #include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -14,8 +15,8 @@
 #define ANC_WHITE			"\x1b[37m"
 #define ANC_RESET			"\x1b[0m"
 
-#define PT_ANN				"\x1b[37m[*]\x1b[0m "
-#define PT_WIN				"\x1b[32m[.]\x1b[0m "
+#define PT_ANN				"\x1b[37m[.]\x1b[0m "
+#define PT_WIN				"\x1b[32m[*]\x1b[0m "
 #define PT_FAIL				"\x1b[31m[*]\x1b[0m "
 
 // Prototypes
@@ -148,18 +149,16 @@ void noteHandler(void)
 void createNote(char *filename)
 {
 	FILE *fp;
-	char *fileCmd;
+	char *fileCmd = malloc(4);
 
-	char *note;
-	char *choice;
+	char *note = malloc(4096);
+	char *choice = malloc(4);
 
-	note = malloc(4096);
-	choice = malloc(4);
-
-	fileCmd = malloc(4);
 	fileCmd = "y";
 
-	strcpy(note, "Please just fucking work");
+	printf("Write note:\n");
+	scanf("%s", note);
+
 	fp = fopen(filename, "a");
 	if (filename == NULL)
 	{
@@ -174,8 +173,12 @@ void createNote(char *filename)
 	}
 	else
 		printf(PT_FAIL"Eat shit\n");
+	
 
 	fclose(fp);
+	/*free(note);
+	free(choice);
+	free(fileCmd);*/
 }
 
 void readNote(char *filename)
@@ -189,7 +192,6 @@ void readNoteList(char *filename)
 	int c;
 
 	fp = fopen(filename, "r");
-	printf("hello!!\n");
 	if (filename == NULL)
 	{
 		printf("Error opening file\n");
